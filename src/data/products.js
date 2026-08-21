@@ -1,5 +1,6 @@
 // ─── All DIY Lab Products ────────────────────────────────────────────────────
 
+
 export const CATEGORIES = [
   'Microcontrollers & Modules',
   'Sensors & Specialized Modules',
@@ -12,21 +13,22 @@ export const CATEGORIES = [
 ];
 
 export const SUB_CATEGORIES = {
-  'Microcontrollers & Modules': ['Arduino', 'ESP32', 'STM32', 'Bluetooth', 'GPS', 'FTDI'],
-  'Sensors & Specialized Modules': ['Temperature', 'Humidity', 'Gas', 'Motion', 'Heart', 'Ultrasound', 'Joystick', 'PH', 'Flex', 'Lidar'],
+  'Microcontrollers & Modules': ['Arduino', 'ESP32', 'STM32', 'Bluetooth', 'GPS', 'FTDI', 'Camera'],
+  'Sensors & Specialized Modules': ['Temperature', 'Humidity', 'Gas', 'Motion', 'Heart', 'Ultrasound', 'Joystick', 'PH', 'Flex', 'Lidar', 'Depth', 'Water'],
   'Power, Charging & Converters': ['Step Up', 'Step Down', 'Charger', 'Adapter', 'Power Bank', 'Samsung', 'Indicator', 'Battery Monitor'],
   'BMS': ['1S', '2S', '3S', '4S', '5S', '6S', 'Higher S'],
-  'LiPo Batteries': ['1500MAH', '2200MAH', '3300MAH', '5200MAH', '10400MAH', '22000MAH'],
+  'LiPo Batteries': ['1500MAH', '2200MAH', '3300MAH', '5200MAH', '10400MAH', '22000MAH', 'Battery Pack'],
   'Used 18650 Batteries': ['500-1000MAH', '1000-1500MAH', '1500-2000MAH', '2000-2500MAH', '2500MAH+'],
   'Displays, Motors & Drivers': ['LCD', 'OLED', 'Servo', 'Motor Driver', 'Relay', 'Joystick'],
-  'Wiring, Tools & Packaging': ['Jumper', 'Breadboard', 'Solder', 'Cable', 'DC Jack', 'Heatshrink', 'Nickel Strip', 'Battery Holder', 'Static Bag'],
+  'Wiring, Tools & Packaging': ['Jumper', 'Breadboard', 'Solder', 'Cable', 'DC Jack', 'Heatshrink', 'Nickel Strip', 'Battery Holder', 'Static Bag', 'Carbon Tube', 'Tape'],
 };
 
 export const PRODUCTS = [
-  // ── MICROCONTROLLERS & MODULES ──────────────────────────────────────────
+  // ── MICROCONTROLLERS & MODULES (21) ──────────────────────────────────────
   { id: 'hc05', name: 'HC05 BLUETOOTH MODULE (HC-05)', category: 'Microcontrollers & Modules', price: 142 },
   { id: 'uno-dip', name: 'ARDUINO UNO DIP (DRIVER 16U2)', category: 'Microcontrollers & Modules', price: 295 },
   { id: 'uno-smd', name: 'ARDUINO UNO SMD (DRIVER CH340G)', category: 'Microcontrollers & Modules', price: 220 },
+  { id: 'mega2560', name: 'ARDUINO MEGA 2560 DRIVER CH340G', category: 'Microcontrollers & Modules', price: 775 },
   { id: 'nano', name: 'ARDUINO NANO V3.0 (DRIVER CH340G)', category: 'Microcontrollers & Modules', price: 150 },
   { id: 'pro-micro', name: 'ARDUINO PRO MICRO', category: 'Microcontrollers & Modules', price: 288 },
   { id: 'pro-mini', name: 'ARDUINO PRO MINI (5V/16MHZ)', category: 'Microcontrollers & Modules', price: 148 },
@@ -37,11 +39,15 @@ export const PRODUCTS = [
   { id: 'atmega328-smd', name: 'MICROCONTROLLER ATMEGA328P SMD', category: 'Microcontrollers & Modules', price: 133 },
   { id: 'esp32cam', name: 'ESP32 CAM + ESP32 CAMMB MICRO USB DOWNLOAD MODULE', category: 'Microcontrollers & Modules', price: 425 },
   { id: 'esp32s', name: 'NODEMCU ESP32-S DEVELOPMENT BOARD (38PIN)', category: 'Microcontrollers & Modules', price: 275 },
+  { id: 'esp32-30pin', name: 'ESP32 DEVELOPMENT BOARD WIFI AND BLUETOOTH 30PIN', category: 'Microcontrollers & Modules', price: 255 },
+  { id: 'esp32-s3', name: 'ESP32-S3-N16R8 DEVELOPMENT BOARD WIFI AND BLUETOOTH', category: 'Microcontrollers & Modules', price: 390 },
   { id: 'esp32cam-mb', name: 'ESP32CAMMB MICRO USB MODULE FOR ESP32 CAM', category: 'Microcontrollers & Modules', price: 65 },
+  { id: 'ov3660', name: 'OV3660 CAM', category: 'Microcontrollers & Modules', price: 140 },
+  { id: 'mp3-player', name: 'Mini MP3 Player Module For Arduino', category: 'Microcontrollers & Modules', price: 90 },
   { id: 'stm32', name: 'STM32F103C8T6 DEVELOPMENT BOARD', category: 'Microcontrollers & Modules', price: 158 },
   { id: 'ftdi', name: 'FTDI BASIC BREAKOUT (5V/3.3V)', category: 'Microcontrollers & Modules', price: 85 },
 
-  // ── SENSORS & SPECIALIZED MODULES ───────────────────────────────────────
+  // ── SENSORS & SPECIALIZED MODULES (32) ───────────────────────────────────
   { id: 'ph-blue', name: 'PH SENSOR BLUE', category: 'Sensors & Specialized Modules', price: 1250 },
   { id: 'flex-45', name: 'Flex/Bending Sensor 4.5 INCH', category: 'Sensors & Specialized Modules', price: 690 },
   { id: 'flex-22', name: 'Flex/Bending Sensor 2.2 INCH', category: 'Sensors & Specialized Modules', price: 370 },
@@ -53,7 +59,10 @@ export const PRODUCTS = [
   { id: 'tds', name: 'TDS SENSOR METER V1.0 BOARD MODULE', category: 'Sensors & Specialized Modules', price: 480 },
   { id: 'fingerprint', name: 'FINGERPRINT MODULE R307', category: 'Sensors & Specialized Modules', price: 775 },
   { id: 'depth-ms5540', name: 'WATERPROOF DEPTH SENSOR MODULE MS5540C', category: 'Sensors & Specialized Modules', price: 750 },
+  { id: 'mpu9250', name: 'IMU MPU9250 9AXIS', category: 'Sensors & Specialized Modules', price: 415 },
   { id: 'joystick', name: 'Joystick Module', category: 'Sensors & Specialized Modules', price: 30 },
+  { id: 'water-level', name: 'WATER LEVEL SENSOR', category: 'Sensors & Specialized Modules', price: 15 },
+  { id: 'pir', name: 'PIR MOTION SENSOR', category: 'Sensors & Specialized Modules', price: 41 },
   { id: 'ir-3pin', name: 'IR SENSOR 3 PIN MODULE', category: 'Sensors & Specialized Modules', price: 25 },
   { id: 'flame', name: 'FLAME SENSOR 3 PIN MODULE', category: 'Sensors & Specialized Modules', price: 25 },
   { id: 'line-follower', name: 'LINE FOLLOWER SENSOR TCRT5000', category: 'Sensors & Specialized Modules', price: 28 },
@@ -64,13 +73,15 @@ export const PRODUCTS = [
   { id: 'dht11', name: 'DHT11 module Temperature & Humidity Sensor', category: 'Sensors & Specialized Modules', price: 39 },
   { id: 'dht22-red', name: 'DHT22 MODULE RED', category: 'Sensors & Specialized Modules', price: 110 },
   { id: 'dht22-black', name: 'DHT22 MODULE BLACK', category: 'Sensors & Specialized Modules', price: 99 },
+  { id: 'lm35', name: 'LM35DZ TEMPERATURE SENSOR', category: 'Sensors & Specialized Modules', price: 50 },
+  { id: 'raindrop', name: 'RAINDROP SENSOR MODULE', category: 'Sensors & Specialized Modules', price: 45 },
   { id: 'soil', name: 'SOIL MOISTURE DETECTION HUMIDITY SENSOR MODULE', category: 'Sensors & Specialized Modules', price: 35 },
   { id: 'mic', name: 'MICROPHONE SOUND DETECTION SENSOR MODULE', category: 'Sensors & Specialized Modules', price: 25 },
   { id: 'mq2', name: 'MQ-2 SMOKE SENSOR MODULE', category: 'Sensors & Specialized Modules', price: 64 },
   { id: 'mq7', name: 'MQ-7 CARBON MONOXIDE SENSOR', category: 'Sensors & Specialized Modules', price: 65 },
   { id: 'mq9', name: 'MQ-9 CARBON MONOXIDE, COMBUSTIBLE GAS', category: 'Sensors & Specialized Modules', price: 70 },
 
-  // ── POWER, CHARGING & CONVERTERS ────────────────────────────────────────
+  // ── POWER, CHARGING & CONVERTERS (19) ────────────────────────────────────
   { id: 'smart-bat-monitor', name: 'Smart Battery monitor DC7-55V LED indicator light', category: 'Power, Charging & Converters', price: 125 },
   { id: 'tr16-coulometer-50a', name: 'TR16 Smart Coulometer Battery Monitor 80V 50A', category: 'Power, Charging & Converters', price: 650 },
   { id: 'tr16-coulometer-100a', name: 'TR16 Smart Coulometer Battery Monitor 80V 100A', category: 'Power, Charging & Converters', price: 850 },
@@ -81,7 +92,9 @@ export const PRODUCTS = [
   { id: 'bat-30q', name: 'BATTERY SAMSUNG 3000MAH HIGH DRAIN INR 30Q 15A (NEW)', category: 'Power, Charging & Converters', price: 150 },
   { id: 'bat-ultrafire', name: 'BATTERY NEW RED ULTRA FIRE 1100MAH', category: 'Power, Charging & Converters', price: 30 },
   { id: 'adapter-5v', name: 'DC POWER ADAPTER (5VDC - 2A)', category: 'Power, Charging & Converters', price: 45 },
+  { id: 'adapter-6v', name: 'DC POWER ADAPTER (6VDC - 2A)', category: 'Power, Charging & Converters', price: 45 },
   { id: 'adapter-12v', name: 'DC POWER ADAPTER (12VDC - 2A)', category: 'Power, Charging & Converters', price: 45 },
+  { id: 'mb102', name: 'MB102 Breadboard Power Supply Module', category: 'Power, Charging & Converters', price: 35 },
   { id: 'powerbank-t6845', name: 'Power Bank Module T6845-C (5V - 1A)', category: 'Power, Charging & Converters', price: 35 },
   { id: 'powerbank-dual', name: 'DUAL USB 5V 1A 2.4A MOBILE POWER BANK 18650', category: 'Power, Charging & Converters', price: 99 },
   { id: 'bat-indicator', name: 'BATTERY LEVEL INDICATOR MODULE 1S-8S (General Version)', category: 'Power, Charging & Converters', price: 48 },
@@ -89,7 +102,7 @@ export const PRODUCTS = [
   { id: 'xl6009', name: 'STEP UP DC-DC Boost Converter XL6009', category: 'Power, Charging & Converters', price: 50 },
   { id: 'lm2596', name: 'STEP DOWN DC-DC Buck Converter LM2596 (4A)', category: 'Power, Charging & Converters', price: 43 },
 
-  // ── BMS ─────────────────────────────────────────────────────────────────
+  // ── BMS (20) ─────────────────────────────────────────────────────────────
   { id: 'bms-1s-3a', name: 'BMS 1S 3A (3.7V-3A) BALANCE', category: 'BMS', price: 15 },
   { id: 'bms-1s-tp4056-micro', name: 'BMS 1S TP4056 (5V-1A) (Micro USB) BALANCE', category: 'BMS', price: 13.5 },
   { id: 'bms-1s-tp4056-c', name: 'BMS 1S TP4056 (5V-1A) TYPE C BALANCE', category: 'BMS', price: 15 },
@@ -106,18 +119,30 @@ export const PRODUCTS = [
   { id: 'bms-5s-15a', name: 'BMS 5S (21V-15A) BALANCE', category: 'BMS', price: 120 },
   { id: 'bms-5s-25a', name: 'BMS 5S (21V-25A) BALANCE', category: 'BMS', price: 85 },
   { id: 'bms-6s-12a', name: 'BMS 6S (24V-12A) BALANCE', category: 'BMS', price: 90 },
+  { id: 'bms-6s-40a', name: 'BMS 6S (24V-40A) BALANCE', category: 'BMS', price: 155 },
+  { id: 'bms-10s', name: 'BMS 10S BALANCE BOARD', category: 'BMS', price: 690 },
   { id: 'bms-13s-50a', name: 'BMS 13S 50A', category: 'BMS', price: 910 },
   { id: 'bms-16s-50a', name: 'BMS 16S 50A', category: 'BMS', price: 1445 },
 
-  // ── LIPO BATTERIES ───────────────────────────────────────────────────────
+  // ── LIPO BATTERIES & PACKS (16) ──────────────────────────────────────────
+  { id: 'lipo-1s-90', name: 'LIPO 3.7V 90MAH 301420', category: 'LiPo Batteries', price: 45 },
+  { id: 'lipo-1s-250', name: 'LIPO 3.7V 250MAH 400923', category: 'LiPo Batteries', price: 48 },
+  { id: 'lipo-1s-500', name: 'LIPO 3.7V 500MAH 502018', category: 'LiPo Batteries', price: 50 },
+  { id: 'lipo-1s-600', name: 'LIPO 3.7V 600MAH 602030', category: 'LiPo Batteries', price: 60 },
   { id: 'lipo-3s-1500', name: 'Lipo 3S 1500 MAH 25C', category: 'LiPo Batteries', price: 1100 },
   { id: 'lipo-3s-2200', name: 'Lipo 3S 2200 MAH 25C', category: 'LiPo Batteries', price: 1500 },
   { id: 'lipo-3s-3300', name: 'Lipo 3S 3300 MAH 35C', category: 'LiPo Batteries', price: 1850 },
   { id: 'lipo-3s-5200', name: 'Lipo 3S 5200 MAH 40C', category: 'LiPo Batteries', price: 2650 },
   { id: 'lipo-3s-10400', name: 'Lipo 3S 10400 MAH 40C', category: 'LiPo Batteries', price: 4600 },
   { id: 'lipo-3s-22000', name: 'Lipo 3S 22000 MAH', category: 'LiPo Batteries', price: 10500 },
+  { id: 'pack-2s-1500', name: '2S 1500MAH Battery Pack', category: 'LiPo Batteries', price: 160 },
+  { id: 'pack-2s-2000', name: '2S 2000MAH Battery Pack', category: 'LiPo Batteries', price: 185 },
+  { id: 'pack-3s-2000', name: '3S 2000MAH Battery Pack', category: 'LiPo Batteries', price: 270 },
+  { id: 'pack-3s-2500', name: '3S 2500MAH Battery Pack', category: 'LiPo Batteries', price: 320 },
+  { id: 'pack-3s-4000', name: '3S 4000MAH Battery Pack', category: 'LiPo Batteries', price: 400 },
+  { id: 'pack-3s-5000', name: '3S 5000MAH Battery Pack', category: 'LiPo Batteries', price: 500 },
 
-  // ── USED 18650 BATTERIES ─────────────────────────────────────────────────
+  // ── USED 18650 BATTERIES (22) ────────────────────────────────────────────
   { id: '18650-500', name: 'BATTERY USED 500MAH+600MAH 18650 3.7V', category: 'Used 18650 Batteries', price: 6 },
   { id: '18650-700', name: 'BATTERY USED 700MAH+800MAH 18650 3.7V', category: 'Used 18650 Batteries', price: 8 },
   { id: '18650-900', name: 'BATTERY USED 900MAH 18650 3.7V', category: 'Used 18650 Batteries', price: 14 },
@@ -141,7 +166,7 @@ export const PRODUCTS = [
   { id: '18650-2800', name: 'BATTERY USED 2800MAH 18650 3.7V', category: 'Used 18650 Batteries', price: 66 },
   { id: '18650-2900', name: 'BATTERY USED 2900MAH 18650 3.7V', category: 'Used 18650 Batteries', price: 71 },
 
-  // ── DISPLAYS, MOTORS & DRIVERS ───────────────────────────────────────────
+  // ── DISPLAYS, MOTORS & DRIVERS (10) ─────────────────────────────────────
   { id: 'lcd-16x2', name: 'LCD 16*2 BLUE', category: 'Displays, Motors & Drivers', price: 60 },
   { id: 'lcd-20x4', name: 'LCD 20*4 BLUE', category: 'Displays, Motors & Drivers', price: 225 },
   { id: 'oled-091', name: 'Blue I2C OLED LCD (128X32) 0.91 INCH', category: 'Displays, Motors & Drivers', price: 100 },
@@ -153,10 +178,21 @@ export const PRODUCTS = [
   { id: 'dc-motor', name: 'DC MOTOR WITH WHEEL', category: 'Displays, Motors & Drivers', price: 39.5 },
   { id: 'relay-1ch', name: 'RELAY MODULE 5V 1 CHANNEL', category: 'Displays, Motors & Drivers', price: 30 },
 
-  // ── WIRING, TOOLS & PACKAGING ────────────────────────────────────────────
+  // ── WIRING, TOOLS & PACKAGING (55) ───────────────────────────────────────
+  { id: 'cf-6x4', name: 'Carbon Fibre Tube 6x4x1000mm', category: 'Wiring, Tools & Packaging', price: 1270 },
+  { id: 'cf-10x8', name: 'Carbon Fibre Tube 10x8x1000mm', category: 'Wiring, Tools & Packaging', price: 1370 },
+  { id: 'cf-12x10', name: 'Carbon Fibre Tube 12x10x1000mm', category: 'Wiring, Tools & Packaging', price: 1470 },
+  { id: 'cf-14x12', name: 'Carbon Fibre Tube 14x12x1000mm', category: 'Wiring, Tools & Packaging', price: 1570 },
+  { id: 'cf-16x14', name: 'Carbon Fibre Tube 16x14x1000mm', category: 'Wiring, Tools & Packaging', price: 2080 },
+  { id: 'cf-18x16', name: 'Carbon Fibre Tube 18x16x1000mm', category: 'Wiring, Tools & Packaging', price: 2280 },
+  { id: 'cf-20x18', name: 'Carbon Fibre Tube 20x18x1000mm', category: 'Wiring, Tools & Packaging', price: 2480 },
+  { id: 'cf-22x20', name: 'Carbon Fibre Tube 22x20x1000mm', category: 'Wiring, Tools & Packaging', price: 2700 },
+  { id: 'cf-25x23', name: 'Carbon Fibre Tube 25x23x1000mm', category: 'Wiring, Tools & Packaging', price: 3100 },
   { id: 'breadboard', name: 'BREADBOARD 830 TIEPOINTS', category: 'Wiring, Tools & Packaging', price: 35 },
   { id: 'solder-wire', name: 'SOLDER WIRE SINGAPORE 250G (0.6MM-70/30)', category: 'Wiring, Tools & Packaging', price: 570 },
+  { id: 'solder-cn', name: 'SOLDER WIRE CHINA 100G 0.8MM', category: 'Wiring, Tools & Packaging', price: 200 },
   { id: 'red-led-oval', name: 'RED LED 5MM OVAL 1000 Piece', category: 'Wiring, Tools & Packaging', price: 165 },
+  { id: 'red-led-concave', name: 'RED LED 5MM CONCAVE', category: 'Wiring, Tools & Packaging', price: 165 },
   { id: 'cable-uno', name: 'CABLE ARDUINO UNO 30 CM', category: 'Wiring, Tools & Packaging', price: 16 },
   { id: 'cable-nano', name: 'CABLE ARDUINO NANO 30CM', category: 'Wiring, Tools & Packaging', price: 16 },
   { id: 'jumper-mf-10', name: 'JUMPER MALE FEMALE 10 CM', category: 'Wiring, Tools & Packaging', price: 0.63 },
@@ -165,15 +201,26 @@ export const PRODUCTS = [
   { id: 'jumper-ff-20', name: 'JUMPER FEMALE FEMALE 20CM', category: 'Wiring, Tools & Packaging', price: 0.73 },
   { id: 'dc-jack-male', name: 'DC JACK MALE', category: 'Wiring, Tools & Packaging', price: 3 },
   { id: 'dc-jack-female', name: 'DC JACK FEMALE', category: 'Wiring, Tools & Packaging', price: 3 },
+  { id: 'dc-jack-male-pw', name: 'DC JACK MALE POWER CONNECTOR', category: 'Wiring, Tools & Packaging', price: 5.5 },
+  { id: 'dc-jack-fem-pw', name: 'DC JACK FEMALE POWER CONNECTOR', category: 'Wiring, Tools & Packaging', price: 5.5 },
+  { id: 'male-jack-male', name: 'MALE JACK TO MALE', category: 'Wiring, Tools & Packaging', price: 18 },
+  { id: 'jst-2pin', name: 'DATA CABLE JST 2 PIN', category: 'Wiring, Tools & Packaging', price: 5 },
+  { id: 'pot-50k', name: 'POT 50K', category: 'Wiring, Tools & Packaging', price: 5 },
   { id: 'heatshrink-1s', name: '18650 HEAT SHRINK TUBING 1S (100 PCS ANY COLOR)', category: 'Wiring, Tools & Packaging', price: 125 },
+  { id: 'pvc-shrink-30', name: 'PVC Shrink Blue 30mm (1M)', category: 'Wiring, Tools & Packaging', price: 7 },
+  { id: 'pvc-shrink-90', name: 'PVC Shrink Blue 90mm (1M)', category: 'Wiring, Tools & Packaging', price: 20 },
+  { id: 'pvc-shrink-100', name: 'PVC Shrink Blue 100mm (1M)', category: 'Wiring, Tools & Packaging', price: 24 },
   { id: 'pvc-shrink-120', name: 'PVC Shrink Blue 120mm (1M)', category: 'Wiring, Tools & Packaging', price: 27 },
+  { id: 'pvc-shrink-130', name: 'PVC Shrink Blue 130mm (1M)', category: 'Wiring, Tools & Packaging', price: 32 },
   { id: 'pvc-shrink-150', name: 'PVC Shrink Blue 150mm (1M)', category: 'Wiring, Tools & Packaging', price: 37 },
   { id: 'pvc-shrink-200', name: 'PVC Shrink Blue 200mm (1M)', category: 'Wiring, Tools & Packaging', price: 67 },
+  { id: 'pvc-shrink-220', name: 'PVC Shrink Blue 220mm (1M)', category: 'Wiring, Tools & Packaging', price: 78 },
   { id: 'nickel-strip-1p', name: 'Nickel Strip 1P 0.15*8mm for 18650 (1M)', category: 'Wiring, Tools & Packaging', price: 17 },
   { id: 'nickel-strip-2p', name: 'Nickel Strip 2P for 18650 Lithium Battery (1M)', category: 'Wiring, Tools & Packaging', price: 65 },
   { id: 'insulation-gasket', name: 'Battery Insulation Gasket Barley Paper (1 SHEET = 50 PCS)', category: 'Wiring, Tools & Packaging', price: 18 },
   { id: 'battery-gasket-1s', name: '18650 BATTERY GASKET 50 PCS 1S', category: 'Wiring, Tools & Packaging', price: 35 },
   { id: 'kapton-tape', name: 'High Temperature Kapton Tape 40MM', category: 'Wiring, Tools & Packaging', price: 400 },
+  { id: 'kapton-tape-20mm', name: 'High Temperature Kapton Tape 20MM', category: 'Wiring, Tools & Packaging', price: 300 },
   { id: 'bracket-1cell', name: 'BATTERY BRACKET SPACER 1 CELL', category: 'Wiring, Tools & Packaging', price: 2 },
   { id: 'bracket-2cell', name: 'BATTERY BRACKET SPACER 2 CELL', category: 'Wiring, Tools & Packaging', price: 3 },
   { id: 'bracket-3cell', name: 'BATTERY BRACKET SPACER 3 CELL', category: 'Wiring, Tools & Packaging', price: 4 },
@@ -185,6 +232,8 @@ export const PRODUCTS = [
   { id: 'ebag-9x13', name: 'Electrostatic bag 9x13cm (100 piece)', category: 'Wiring, Tools & Packaging', price: 200 },
   { id: 'ebag-9x18', name: 'Electrostatic bag 9x18cm (100 piece)', category: 'Wiring, Tools & Packaging', price: 250 },
   { id: 'slot-tape', name: 'Slotted tape for packaging (600 yards)', category: 'Wiring, Tools & Packaging', price: 75 },
+  { id: 'tape-75y', name: 'Packaging Tape 75 Yards', category: 'Wiring, Tools & Packaging', price: 600 },
+  { id: 'tape-mesh', name: 'Mesh Tape 2cm', category: 'Wiring, Tools & Packaging', price: 45 },
 ];
 
 // Helper: get products by category
@@ -208,7 +257,7 @@ export function searchProducts(query) {
   );
 }
 
-// Helper: featured products - pick a few from different categories
+// Helper: featured products
 export const FEATURED_PRODUCTS = [
   'uno-smd', 'esp32s', 'mpu6050', 'esp32cam',
   'dht22-red', 'bms-3s-20a', 'l298n', 'oled-096',
