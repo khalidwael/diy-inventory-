@@ -21,45 +21,38 @@ function loadDraft() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return JSON.parse(raw);
-  } catch (_) {}
+  } catch {
+    return null;
+  }
   return null;
 }
 
 function saveDraft(data) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  } catch (_) {}
+  } catch {
+    return false;
+  }
 }
 
 export function useInvoice() {
-  const [invoiceId, setInvoiceId] = useState('');
-  const [date, setDate] = useState('');
-  const [items, setItems] = useState([]);
-  const [shipping, setShipping] = useState('standard'); // 'standard' | 'upper'
-  const [discount, setDiscount] = useState(0);
-  const [customerName, setCustomerName] = useState('');
+  const [draft] = useState(() => loadDraft());
 
-  // Load on mount
-  useEffect(() => {
-    const draft = loadDraft();
-    if (draft) {
-      setInvoiceId(draft.invoiceId || generateInvoiceId());
-      setDate(draft.date || getTodayDate());
-      setItems(draft.items || []);
-      setShipping(draft.shipping || 'standard');
-      setDiscount(draft.discount || 0);
-      setCustomerName(draft.customerName || '');
-    } else {
-      setInvoiceId(generateInvoiceId());
-      setDate(getTodayDate());
-    }
-  }, []);
+  const [invoiceId, setInvoiceId] = useState(() => draft?.invoiceId || generateInvoiceId());
+  const [date, setDate] = useState(() => draft?.date || getTodayDate());
+  const [items, setItems] = useState(() => draft?.items || []);
+  const [shipping, setShipping] = useState(() => draft?.shipping || 'standard'); // 'standard' | 'upper'
+  const [discount, setDiscount] = useState(() => draft?.discount || 0);
+  const [customerName, setCustomerName] = useState(() => draft?.customerName || '');
+
+  // Track if we're editing an existing saved order (stores the Supabase row id)
+  const [editingRowId, setEditingRowId] = useState(() => draft?.editingRowId || null);
 
   // Auto-save whenever state changes
   useEffect(() => {
     if (!invoiceId) return;
-    saveDraft({ invoiceId, date, items, shipping, discount, customerName });
-  }, [invoiceId, date, items, shipping, discount, customerName]);
+    saveDraft({ invoiceId, date, items, shipping, discount, customerName, editingRowId });
+  }, [invoiceId, date, items, shipping, discount, customerName, editingRowId]);
 
   const addItem = useCallback((product, quantity) => {
     setItems(prev => {
@@ -90,6 +83,22 @@ export function useInvoice() {
     setItems(prev => prev.map(i => i.id === id ? { ...i, quantity: qty } : i));
   }, []);
 
+  // Load an existing saved order into the active editor
+  const loadOrder = useCallback((order) => {
+    // Determine shipping mode from shipping_label or shipping_cost
+    const shippingMode = order.shipping_cost === 100 || (order.shipping_label || '').toLowerCase().includes('upper')
+      ? 'upper'
+      : 'standard';
+
+    setInvoiceId(order.invoice_id);
+    setDate(order.date);
+    setItems(order.items || []);
+    setShipping(shippingMode);
+    setDiscount(order.discount || 0);
+    setCustomerName(order.customer_name || '');
+    setEditingRowId(order.id); // Supabase row id
+  }, []);
+
   const reset = useCallback(() => {
     const newId = generateInvoiceId();
     const newDate = getTodayDate();
@@ -99,7 +108,8 @@ export function useInvoice() {
     setShipping('standard');
     setDiscount(0);
     setCustomerName('');
-    saveDraft({ invoiceId: newId, date: newDate, items: [], shipping: 'standard', discount: 0, customerName: '' });
+    setEditingRowId(null);
+    saveDraft({ invoiceId: newId, date: newDate, items: [], shipping: 'standard', discount: 0, customerName: '', editingRowId: null });
   }, []);
 
   // Calculations
@@ -122,6 +132,8 @@ export function useInvoice() {
     removeItem,
     updateQuantity,
     reset,
+    loadOrder,
+    editingRowId,
     subtotal,
     shippingCost,
     discountAmount,

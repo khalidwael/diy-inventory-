@@ -12,6 +12,15 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
 
+  function handleLoadOrder(order) {
+    invoice.loadOrder(order);
+    setShowHistory(false);
+    // Scroll to top so user sees the loaded invoice
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const isEditing = !!invoice.editingRowId;
+
   return (
     <div style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
       <Header
@@ -19,17 +28,47 @@ export default function App() {
         date={invoice.date}
         onSettingsOpen={() => setShowSettings(true)}
         onHistoryOpen={() => setShowHistory(true)}
+        isEditing={isEditing}
       />
 
       <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 16px 80px' }}>
         {/* Page Title */}
         <div style={{ marginBottom: '24px', paddingTop: '8px' }}>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '4px' }}>
-            New Invoice
-          </h1>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Add products, set shipping, and export or save your invoice.
-          </p>
+          {isEditing ? (
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                  Editing Invoice
+                </h1>
+                <span style={{
+                  background: 'linear-gradient(135deg, rgba(255,193,7,0.15), rgba(255,152,0,0.15))',
+                  border: '1px solid rgba(255,193,7,0.4)',
+                  color: '#ffc107',
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  padding: '3px 10px',
+                  borderRadius: '20px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                }}>
+                  ✏ Edit Mode
+                </span>
+              </div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                You&apos;re editing <strong style={{ color: 'var(--accent-cyan)' }}>{invoice.invoiceId}</strong>.
+                Add or remove products, then click <strong>Update Order</strong> to save changes.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '4px' }}>
+                New Invoice
+              </h1>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                Add products, set shipping, and export or save your invoice.
+              </p>
+            </>
+          )}
         </div>
 
         {/* Main Layout */}
@@ -53,7 +92,12 @@ export default function App() {
 
       {/* Modals */}
       {showSettings && <SettingsModal onClose={() => setShowSettings(false)} />}
-      {showHistory && <OrderHistory onClose={() => setShowHistory(false)} />}
+      {showHistory && (
+        <OrderHistory
+          onClose={() => setShowHistory(false)}
+          onLoadOrder={handleLoadOrder}
+        />
+      )}
 
       <style>{`
         @media (min-width: 900px) {

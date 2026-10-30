@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { saveOrder } from '../lib/supabase';
+import { saveOrder, updateOrder } from '../lib/supabase';
 
 function formatPrice(n) {
   return n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
 }
 
 function buildWhatsAppMessage(invoice) {
-  const { invoiceId, date, items, subtotal, shippingCost, shippingLabel, discountAmount, grandTotal, customerName } = invoice;
+  const { invoiceId, date, items, subtotal, shippingLabel, discountAmount, grandTotal, customerName } = invoice;
   let msg = `*Diy Lab - Your Order Details*\n`;
   msg += `*Invoice ID:* ${invoiceId}\n`;
   msg += `*Date:* ${date}\n`;
@@ -37,11 +37,16 @@ export default function InvoiceSummary({ invoice, onReset }) {
     customerName, setCustomerName,
     subtotal, shippingCost, discountAmount, grandTotal, shippingLabel,
     invoiceId, date, items,
+    editingRowId,
   } = invoice;
+
+  const isEditing = !!editingRowId;
 
   const [saveStatus, setSaveStatus] = useState('idle'); // idle | loading | success | error
   const [saveError, setSaveError] = useState('');
   const [copyStatus, setCopyStatus] = useState('idle');
+  const [updateStatus, setUpdateStatus] = useState('idle'); // idle | loading | success | error
+  const [updateError, setUpdateError] = useState('');
 
   async function handleFinalize() {
     if (items.length === 0) return;
@@ -58,13 +63,28 @@ export default function InvoiceSummary({ invoice, onReset }) {
     }
   }
 
+  async function handleUpdate() {
+    if (items.length === 0) return;
+    setUpdateStatus('loading');
+    setUpdateError('');
+    try {
+      await updateOrder(editingRowId, { invoiceId, customerName, date, items, subtotal, shippingCost, shippingLabel, discountAmount, grandTotal });
+      setUpdateStatus('success');
+      setTimeout(() => setUpdateStatus('idle'), 3000);
+    } catch (err) {
+      setUpdateError(err.message || 'Failed to update');
+      setUpdateStatus('error');
+      setTimeout(() => setUpdateStatus('idle'), 5000);
+    }
+  }
+
   async function handleCopy() {
     const msg = buildWhatsAppMessage({ invoiceId, customerName, date, items, subtotal, shippingCost, shippingLabel, discountAmount, grandTotal });
     try {
       await navigator.clipboard.writeText(msg);
       setCopyStatus('success');
       setTimeout(() => setCopyStatus('idle'), 2500);
-    } catch (_) {
+    } catch {
       // Fallback for older browsers
       const ta = document.createElement('textarea');
       ta.value = msg;
@@ -323,6 +343,57 @@ export default function InvoiceSummary({ invoice, onReset }) {
           </div>
         )}
 
+        {/* Update Order (Edit Mode) */}
+        {isEditing && (
+          <>
+            <button
+              id="btn-update-order"
+              onClick={handleUpdate}
+              disabled={items.length === 0 || updateStatus === 'loading'}
+              style={{
+                padding: '13px 16px',
+                fontSize: '0.875rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                fontWeight: 700,
+                width: '100%',
+                background: updateStatus === 'success'
+                  ? 'linear-gradient(135deg, #00c851, #007e33)'
+                  : 'linear-gradient(135deg, #ffc107, #ff8f00)',
+                border: 'none',
+                borderRadius: '10px',
+                color: '#000',
+                cursor: items.length === 0 ? 'not-allowed' : 'pointer',
+                opacity: items.length === 0 ? 0.4 : 1,
+                boxShadow: updateStatus === 'success' ? '0 0 20px rgba(0,200,81,0.3)' : '0 0 20px rgba(255,193,7,0.25)',
+                transition: 'all 0.2s',
+              }}
+            >
+              {updateStatus === 'loading' ? (
+                <><span style={{ display: 'inline-block', animation: 'spin 1s linear infinite', fontSize: '14px' }}>⟳</span>Updating...</>
+              ) : updateStatus === 'success' ? (
+                <>✓ Order Updated!</>
+              ) : (
+                <>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                  </svg>
+                  Update &amp; Save Order
+                </>
+              )}
+            </button>
+            {updateStatus === 'error' && (
+              <div style={{ fontSize: '0.78rem', color: 'var(--danger)', padding: '8px 12px', background: 'rgba(255,71,87,0.08)', borderRadius: '6px', border: '1px solid rgba(255,71,87,0.2)' }}>
+                ⚠ {updateError}
+              </div>
+            )}
+          </>
+        )}
+
         {/* Start New Invoice */}
         <button
           id="btn-new-invoice"
@@ -333,7 +404,7 @@ export default function InvoiceSummary({ invoice, onReset }) {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
           </svg>
-          Start New Invoice
+          {isEditing ? 'Discard Edits & New Invoice' : 'Start New Invoice'}
         </button>
       </div>
 

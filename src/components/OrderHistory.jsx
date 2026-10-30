@@ -5,11 +5,12 @@ function formatPrice(n) {
   return n?.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }) ?? '0';
 }
 
-export default function OrderHistory({ onClose }) {
+export default function OrderHistory({ onClose, onLoadOrder }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [expanded, setExpanded] = useState(null);
+  const [loadingId, setLoadingId] = useState(null);
 
   useEffect(() => {
     if (!isConfigured()) {
@@ -30,6 +31,14 @@ export default function OrderHistory({ onClose }) {
     load();
   }, []);
 
+  function handleLoadOrder(order) {
+    setLoadingId(order.id);
+    onLoadOrder(order);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  }
+
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal-panel fade-in" style={{ padding: '24px' }}>
@@ -37,7 +46,9 @@ export default function OrderHistory({ onClose }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <div>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Order History</h2>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>Last 50 finalized orders</div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+              Last 50 finalized orders · click an order to expand, then <strong style={{ color: 'var(--accent-cyan)' }}>Load & Edit</strong>
+            </div>
           </div>
           <button
             id="btn-close-history"
@@ -82,7 +93,7 @@ export default function OrderHistory({ onClose }) {
                   transition: 'border-color 0.2s',
                 }}
               >
-                {/* Order Header */}
+                {/* Order Header Row */}
                 <button
                   onClick={() => setExpanded(expanded === order.id ? null : order.id)}
                   style={{
@@ -127,6 +138,54 @@ export default function OrderHistory({ onClose }) {
                           <span style={{ color: 'var(--success)', fontFamily: 'JetBrains Mono' }}>-{formatPrice(order.discount)} EGP</span>
                         </div>
                       )}
+
+                      {/* ── Load & Edit Button ── */}
+                      <button
+                        id={`btn-load-order-${order.id}`}
+                        onClick={() => handleLoadOrder(order)}
+                        disabled={loadingId === order.id}
+                        style={{
+                          marginTop: '14px',
+                          width: '100%',
+                          padding: '10px 16px',
+                          background: 'linear-gradient(135deg, rgba(0,229,255,0.12), rgba(0,150,168,0.12))',
+                          border: '1px solid rgba(0,229,255,0.35)',
+                          borderRadius: '8px',
+                          color: 'var(--accent-cyan)',
+                          fontWeight: 700,
+                          fontSize: '0.82rem',
+                          cursor: loadingId === order.id ? 'wait' : 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '7px',
+                          transition: 'background 0.2s, box-shadow 0.2s',
+                          letterSpacing: '0.02em',
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0,229,255,0.2), rgba(0,150,168,0.2))';
+                          e.currentTarget.style.boxShadow = '0 0 12px rgba(0,229,255,0.2)';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = 'linear-gradient(135deg, rgba(0,229,255,0.12), rgba(0,150,168,0.12))';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
+                      >
+                        {loadingId === order.id ? (
+                          <>
+                            <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⟳</span>
+                            Loading...
+                          </>
+                        ) : (
+                          <>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            Load & Edit This Invoice
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
                 )}

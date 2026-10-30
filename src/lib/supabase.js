@@ -24,7 +24,7 @@ function getClient() {
   if (!url || !key) return null;
   try {
     return createClient(url, key);
-  } catch (_) {
+  } catch {
     return null;
   }
 }
@@ -49,6 +49,27 @@ export async function saveOrder(invoice) {
   if (error) throw error;
   return data;
 }
+
+export async function updateOrder(rowId, invoice) {
+  const client = getClient();
+  if (!client) throw new Error('Supabase not configured. Add credentials in Settings.');
+
+  const { data, error } = await client.from('orders').update({
+    customer_name: invoice.customerName || 'Walk-in',
+    date: invoice.date,
+    items: invoice.items,
+    subtotal: invoice.subtotal,
+    shipping_cost: invoice.shippingCost,
+    shipping_label: invoice.shippingLabel,
+    discount: invoice.discountAmount,
+    grand_total: invoice.grandTotal,
+    updated_at: new Date().toISOString(),
+  }).eq('id', rowId).select();
+
+  if (error) throw error;
+  return data;
+}
+
 
 export async function getOrders() {
   const client = getClient();
