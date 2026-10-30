@@ -5,17 +5,23 @@ import InvoiceTable from './components/InvoiceTable';
 import InvoiceSummary from './components/InvoiceSummary';
 import SettingsModal from './components/SettingsModal';
 import OrderHistory from './components/OrderHistory';
+import ImportInvoiceModal from './components/ImportInvoiceModal';
 import { useInvoice } from './hooks/useInvoice';
 
 export default function App() {
   const invoice = useInvoice();
   const [showSettings, setShowSettings] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
+  const [showImport, setShowImport] = useState(false);
 
   function handleLoadOrder(order) {
     invoice.loadOrder(order);
     setShowHistory(false);
-    // Scroll to top so user sees the loaded invoice
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function handleImport(parsed) {
+    invoice.importOrder(parsed);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -28,6 +34,7 @@ export default function App() {
         date={invoice.date}
         onSettingsOpen={() => setShowSettings(true)}
         onHistoryOpen={() => setShowHistory(true)}
+        onImportOpen={() => setShowImport(true)}
         isEditing={isEditing}
       />
 
@@ -65,7 +72,17 @@ export default function App() {
                 New Invoice
               </h1>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Add products, set shipping, and export or save your invoice.
+                Add products, set shipping, and export or save your invoice.{' '}
+                <button
+                  onClick={() => setShowImport(true)}
+                  style={{
+                    background: 'none', border: 'none', cursor: 'pointer',
+                    color: 'var(--accent-cyan)', fontSize: '0.85rem', fontWeight: 600,
+                    textDecoration: 'underline', padding: 0,
+                  }}
+                >
+                  أو استورد فاتورة قديمة →
+                </button>
               </p>
             </>
           )}
@@ -96,6 +113,12 @@ export default function App() {
         <OrderHistory
           onClose={() => setShowHistory(false)}
           onLoadOrder={handleLoadOrder}
+        />
+      )}
+      {showImport && (
+        <ImportInvoiceModal
+          onClose={() => setShowImport(false)}
+          onImport={handleImport}
         />
       )}
 

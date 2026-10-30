@@ -99,6 +99,17 @@ export function useInvoice() {
     setEditingRowId(order.id); // Supabase row id
   }, []);
 
+  // Import a parsed WhatsApp invoice (no Supabase row — treated as a new invoice)
+  const importOrder = useCallback((parsed) => {
+    setInvoiceId(parsed.invoiceId || generateInvoiceId());
+    setDate(parsed.date || getTodayDate());
+    setItems(parsed.items || []);
+    setShipping(parsed.shipping || 'standard');
+    setDiscount(parsed.discount || 0);
+    setCustomerName(parsed.customerName || '');
+    setEditingRowId(null); // imported invoices start fresh (no DB row yet)
+  }, []);
+
   const reset = useCallback(() => {
     const newId = generateInvoiceId();
     const newDate = getTodayDate();
@@ -133,6 +144,7 @@ export function useInvoice() {
     updateQuantity,
     reset,
     loadOrder,
+    importOrder,
     editingRowId,
     subtotal,
     shippingCost,

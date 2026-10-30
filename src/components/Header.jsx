@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Header({ invoiceId, date, onSettingsOpen, onHistoryOpen }) {
+export default function Header({ invoiceId, date, onSettingsOpen, onHistoryOpen, onImportOpen, isEditing }) {
   return (
     <header style={{
       background: 'linear-gradient(180deg, rgba(0,229,255,0.06) 0%, transparent 100%)',
@@ -38,15 +38,47 @@ export default function Header({ invoiceId, date, onSettingsOpen, onHistoryOpen 
             </div>
           </div>
 
-          {/* Invoice Info */}
+          {/* Invoice Info + Buttons */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '3px' }}>
-              <div className="neon-badge">{invoiceId}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-end' }}>
+                <div className="neon-badge">{invoiceId}</div>
+                {isEditing && (
+                  <span style={{
+                    background: 'rgba(255,193,7,0.15)',
+                    border: '1px solid rgba(255,193,7,0.35)',
+                    color: '#ffc107',
+                    fontSize: '0.6rem',
+                    fontWeight: 700,
+                    padding: '2px 7px',
+                    borderRadius: '20px',
+                    letterSpacing: '0.05em',
+                    textTransform: 'uppercase',
+                  }}>✏ Edit</span>
+                )}
+              </div>
               <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>{date}</div>
             </div>
 
             {/* Action Buttons */}
             <div style={{ display: 'flex', gap: '8px' }}>
+              {/* Import Invoice */}
+              <button
+                id="btn-import"
+                onClick={onImportOpen}
+                className="btn-outline"
+                title="Import old invoice from WhatsApp text"
+                style={{ padding: '7px 12px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '5px' }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="16 16 12 12 8 16"/>
+                  <line x1="12" y1="12" x2="12" y2="21"/>
+                  <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3"/>
+                </svg>
+                <span style={{ display: 'none' }} className="sm-show">Import</span>
+              </button>
+
+              {/* Order History */}
               <button
                 id="btn-history"
                 onClick={onHistoryOpen}
@@ -60,6 +92,7 @@ export default function Header({ invoiceId, date, onSettingsOpen, onHistoryOpen 
                 <span style={{ display: 'none' }} className="sm-show">History</span>
               </button>
 
+              {/* Settings */}
               <button
                 id="btn-settings"
                 onClick={onSettingsOpen}
